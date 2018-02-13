@@ -60,7 +60,36 @@ def legandr(a, p):
     return product([legandr(div, p) for div in dividers])
 
 
-def extended_euclid(a, n):
-    return None
+def extended_euclid(a, b):
+    if b > a:
+        return extended_euclid(b, a)
+
+    s_koef = [0, 1]
+    t_koef = [1, 0]
+    i = 1
+    r = a % b
+    r_prev = 0
+    q = a // b
+
+    if r == 0:
+        return b, 0, 1
+
+    # start from second step
+    while r != 0:
+        a = b
+        b = r
+
+        q_prev = q
+        r_prev = r
+        r = a % b
+        q = a // b
+        i += 1
+
+        s_koef.append(s_koef[i - 2] - s_koef[i - 1] * q_prev)
+        t_koef.append(t_koef[i - 2] - t_koef[i - 1] * q_prev)
+
+        # print("{0} | {1} | {2} | {3} | {4} | {5}".format(a, b, q, r, s_koef[i], t_koef[i]))
+
+    return r_prev, s_koef[i], t_koef[i]
 
 
